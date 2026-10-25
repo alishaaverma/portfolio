@@ -889,9 +889,13 @@ export function useMarquee(
   useGSAP(
     () => {
       if (!animate) return;
-      const loop = gsap.to(".marquee-track", {
+      // Speed in pixels per second. Lower = slower. The duration is worked out from the
+      // track's length, so the speed stays the same however many skills there are.
+      const SPEED = 60;
+      const track = root.current!.querySelector<HTMLElement>(".marquee-track")!;
+      const loop = gsap.to(track, {
         xPercent: -50,
-        duration: 22,
+        duration: track.scrollWidth / 2 / SPEED,
         ease: "none",
         repeat: -1,
       });
@@ -903,7 +907,8 @@ export function useMarquee(
       });
       ScrollTrigger.create({
         onUpdate: (self) => {
-          const boost = Math.min(Math.abs(self.getVelocity()) / 300, 5);
+          // Scrolling speeds it up a little (at most 2× extra).
+          const boost = Math.min(Math.abs(self.getVelocity()) / 800, 2);
           gsap.to(loop, {
             timeScale: self.direction * (1 + boost),
             duration: 0.3,
