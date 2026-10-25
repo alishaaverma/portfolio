@@ -1,12 +1,22 @@
 [
   {
-    "quote": "Replace this with something a manager, client or teammate said about working with you.",
-    "name": "Person Name",
-    "role": "Engineering Manager, Company Name"
+    "quote": "A dedicated developer with a strong focus on building responsive web applications and delivering quality solutions. A willingness to learn new technologies and solve technical challenges makes this developer a valuable team member.",
+    "name": "Bhanu Pratap Shukla",
+    "role": "Team Leader, Botlab Dynamics"
   },
   {
-    "quote": "Keep each quote to one or two sentences. Delete everything in this file to hide the section.",
-    "name": "Person Name",
-    "role": "Founder, Startup Name"
+    "quote": "Consistently demonstrates a proactive attitude toward development tasks, with a focus on building reliable web solutions, resolving technical challenges, and maintaining code quality. Shows commitment to continuous learning and contributing to the team's development goals.",
+    "name": "Aman Rawat",
+    "role": "Manager, Botlab Dynamics"
+  },
+  {
+    "quote": "Demonstrates a strong willingness to learn, adapt to new technologies, and contribute to development tasks. Their dedication to improving technical skills and delivering quality work reflects a positive approach to professional growth.",
+    "name": "Mohit Gupta",
+    "role": "Manager, Insight Route"
+  },
+  {
+    "quote": "Working with this developer has been a positive experience. They approach development tasks with creativity, attention to detail, and a problem-solving mindset, while continuously striving to improve the quality of their work.",
+    "name": "Priya Singh",
+    "role": "Developer, Insight Route"
   }
 ]
