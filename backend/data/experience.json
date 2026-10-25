@@ -2,10 +2,14 @@
   {
     "role": "Software Developer",
     "company": "Botlab Dynamics",
-    "period": "july 2026 — Present",
+    "period": "July 2026 — Present",
     "points": [
-      "Built and shipped features used by thousands of people every day.",
-      "Write one line per achievement, ideally with a number in it."
+      "Develop and maintain responsive web pages using modern frontend technologies to deliver seamless user experiences across devices.",
+      "Build and integrate APIs, implement backend functionality, and manage data flow between frontend and backend systems.",
+      "Develop and customize WordPress websites and custom CMS solutions to meet project requirements and simplify content management.",
+      "Work with AWS services, including S3, Lambda, CloudFront, and Amplify, to support application hosting, storage, and deployment workflows.",
+      "Identify and resolve UI issues, improve website responsiveness, and maintain code quality throughout the development process.",
+      "Collaborate with team members to implement new features, troubleshoot technical issues, and deliver website enhancements."
     ],
     "current": true,
     "url": "https://botlabdynamics.com/"
@@ -13,10 +17,14 @@
   {
     "role": "Developer Intern",
     "company": "Insight Route",
-    "period": "2025-2026",
+    "period": "2025–2026",
     "points": [
-      "Rebuilt the dashboard in React and TypeScript.",
-      "Replace these entries with your own in backend/data/experience.json."
+      "Developed and enhanced web interfaces using React.js, JavaScript, and TypeScript to create responsive and interactive user experiences.",
+      "Implemented reusable UI components and improved page layouts to maintain consistency across the application.",
+      "Worked on API integration and data handling to connect frontend components with backend services.",
+      "Identified and fixed UI bugs, resolved layout issues, and improved cross-device compatibility.",
+      "Collaborated with team members to understand project requirements, implement features, and maintain development workflows.",
+      "Strengthened practical software development skills through hands-on project work, debugging, and code improvements."
     ],
     "current": false
   }
