@@ -3,12 +3,13 @@
   "last_name": "Verma",
   "role": "Software developer",
   "location": "New Delhi",
-  "tagline": "I build fast, reliable web apps, from the database to the last pixel.",
-  "about": "I write *software* that people enjoy using. React and TypeScript on the front, Python on the back, and a habit of sweating the details: load times, edge cases, and how an interface *feels* under your fingers.",
+  "tagline": "Turning Ideas into Impactful Digital Experiences Through Code, Creativity, and Innovation.",
+
+  "about": "Hi, I'm a Software Developer passionate about building modern, responsive, and user-friendly web applications. I enjoy transforming ideas into functional digital experiences by combining creativity, problem-solving, and technical expertise.\n\n My expertise includes **frontend development, backend API development, database management, and custom CMS development**. I work with technologies such as React.js, Next.js, TypeScript, JavaScript, HTML, and CSS to build interactive and responsive user interfaces. I also work with **WordPress** to develop and customize websites according to project requirements.\n\n In backend development, I focus on building APIs, managing databases, and developing custom content management systems that make applications efficient and scalable.\n\n I also work with **AWS cloud services**, including Amazon S3 for storage, AWS Lambda for serverless computing, Amazon CloudFront for content delivery, and AWS Amplify for application hosting and deployment. Additionally, I am exploring **blockchain development and smart contract programming using Solidity**.\n\n I believe in writing clean, maintainable code, continuously learning new technologies, and solving real-world problems through innovative solutions. My goal is to build impactful digital products that deliver seamless user experiences while expanding my expertise in software development, cloud computing, and blockchain technology.",
   "email": "alishav2105@gmail.com",
   "available": true,
-  "spotlight_base": "Most developer portfolios list technologies.",
-  "spotlight_hidden": "This one shows you what I build with them.",
+  "spotlight_base": "Beyond code, technology becomes a possibility. Every idea has the power to create something extraordinary, but it's innovation, creativity, and purposeful execution that turn possibilities into reality.",
+  "spotlight_hidden": "I turn technology into real-world solutions through creative development, scalable applications, cloud computing, and smart contracts.",
   "links": [
     {
       "label": "GitHub",
