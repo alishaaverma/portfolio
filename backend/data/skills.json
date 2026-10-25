@@ -1,0 +1,5 @@
+[
+  { "category": "Frontend", "items": ["React", "TypeScript", "Tailwind CSS", "GSAP"] },
+  { "category": "Backend", "items": ["Python", "FastAPI", "Node.js", "PostgreSQL"] },
+  { "category": "Tools", "items": ["Git", "Docker", "Linux", "VS Code"] }
+]

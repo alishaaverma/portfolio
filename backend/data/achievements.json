@@ -1,0 +1,16 @@
+[
+  {
+    "title": "Hackathon winner",
+    "issuer": "Hackathon name",
+    "year": 2024,
+    "description": "One line about what you built and why it won.",
+    "url": null
+  },
+  {
+    "title": "AWS Certified Cloud Practitioner",
+    "issuer": "Amazon Web Services",
+    "year": 2023,
+    "description": "Replace these entries with your own in backend/data/achievements.json.",
+    "url": null
+  }
+]

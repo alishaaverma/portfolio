@@ -1,0 +1,1055 @@
+/*
+  All styles for the site live in this one file.
+  Components only use class names (e.g. className="hero-title"); the look of
+  each class is written here with Tailwind's @apply.
+*/
+@import "tailwindcss";
+
+/* Colours and fonts. Each one becomes a Tailwind name: bg-ink, text-paper, font-display… */
+@theme {
+  /* A dark code-editor palette: terminal green as the accent, cyan as the second colour. */
+  --color-ink: #0d1117;
+  --color-ink-2: #161b22;
+  --color-paper: #e6edf3;
+  --color-muted: #8b949e;
+  --color-accent: #4ade80;
+  --color-warm: #38bdf8;
+  --color-mint: #a5f3c4;
+  --color-code-green: #4ade80;
+  --color-line: rgb(230 237 243 / 0.12);
+  --color-danger: #f85149;
+
+  /* Headings use a monospace font, like code. */
+  --font-display: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  --font-sans:
+    "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --animate-blink: blink 0.9s steps(1) infinite;
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+/* Centered page column with side padding. */
+@utility wrap {
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* Small mono label, e.g. "Scroll to compile". */
+@utility tag {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-muted);
+}
+
+@layer base {
+  /* Nothing may stick out sideways (e.g. items waiting to slide in), so phones never scroll left/right. */
+  html {
+    @apply overflow-x-clip;
+  }
+  body {
+    @apply overflow-x-clip bg-ink font-sans text-paper antialiased;
+    /* Dotted grid, like a code editor / blueprint background. */
+    background-image: radial-gradient(rgb(230 237 243 / 0.07) 1px, transparent 1px);
+    background-size: 26px 26px;
+    background-attachment: fixed;
+  }
+
+
+  ::selection {
+    @apply bg-accent text-ink;
+  }
+
+  :focus-visible {
+    @apply rounded outline-2 outline-offset-4 outline-accent;
+  }
+
+  /* Hide the normal cursor while the custom one is on screen. */
+  html.has-cursor :is(body, a, button, input, textarea, label) {
+    cursor: none;
+  }
+
+  /* Needed by the Lenis smooth-scroll library. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+}
+
+@layer components {
+  /* ================= Shared ================= */
+
+  .section {
+    @apply wrap py-20 md:py-28;
+  }
+
+  /*
+    3D tilt: any element with class "tilt" leans toward the mouse (useTilt in animations.ts).
+    The ::after layer is a soft light that follows the pointer (--glare-x / --glare-y / --glare).
+  */
+  .tilt {
+    @apply relative;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+  /* Content floats above the card surface, so it shifts in depth while the card tilts. */
+  .tilt > * {
+    translate: 0 0 40px;
+  }
+  .tilt::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300;
+    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgb(255 255 255 / 0.14), transparent 55%);
+    opacity: var(--glare, 0);
+  }
+
+  /* SectionHead.tsx */
+  .section-head {
+    @apply relative mb-12 flex flex-wrap items-baseline justify-between gap-4 pt-5;
+  }
+  .section-head-rule {
+    @apply absolute inset-x-0 top-0 h-px origin-left bg-line;
+  }
+  .section-head h2 {
+    @apply font-display text-3xl font-bold tracking-tight md:text-5xl;
+  }
+  /* Markdown-style "#" before every section title. */
+  .section-head h2::before {
+    content: "#";
+    @apply mr-3 text-accent md:mr-4;
+  }
+  /* The small label reads like a code comment. */
+  .section-head .tag::before {
+    content: "// ";
+    @apply text-accent/70;
+  }
+
+  /* ================= App.tsx: error screen ================= */
+
+  .error-page {
+    @apply wrap flex min-h-svh flex-col items-start justify-center gap-4;
+  }
+  .error-page h1 {
+    @apply font-display text-5xl font-extrabold;
+  }
+  .error-page p {
+    @apply text-muted;
+  }
+  .error-page .error-detail {
+    @apply font-mono text-sm text-danger;
+  }
+  .error-page code {
+    @apply font-mono text-paper;
+  }
+  .error-page button {
+    @apply cursor-pointer rounded-md bg-accent px-6 py-3 font-mono font-semibold text-ink;
+  }
+
+  /* ================= Preloader.tsx ================= */
+
+  .preloader {
+    @apply fixed inset-0 z-80 bg-black;
+  }
+  .preloader-screen {
+    @apply absolute inset-0 flex items-end bg-ink px-4 pb-10;
+    background-image: radial-gradient(
+      ellipse at center,
+      rgb(126 224 163 / 0.07),
+      transparent 70%
+    );
+  }
+  /* scanlines */
+  .preloader-screen::after {
+    content: "";
+    @apply pointer-events-none absolute inset-0;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgb(0 0 0 / 0.18) 0 1px,
+      transparent 1px 3px
+    );
+  }
+  .terminal {
+    @apply grid gap-1.5 font-mono text-sm leading-normal whitespace-pre-wrap md:text-xl;
+    text-shadow: 0 0 12px rgb(126 224 163 / 0.35);
+  }
+  .terminal .prompt {
+    @apply font-medium text-code-green;
+  }
+  .terminal .output {
+    @apply invisible text-muted opacity-0;
+  }
+  .terminal .ok {
+    @apply text-code-green;
+  }
+  .terminal .fail {
+    @apply text-danger;
+  }
+  .terminal .caret {
+    @apply ml-1.5 inline-block h-[1.1em] w-[0.6em] animate-blink bg-paper align-[-0.2em];
+  }
+
+  /* ================= Cursor.tsx ================= */
+
+  .cursor-dot,
+  .cursor-ring {
+    @apply pointer-events-none fixed top-0 left-0 z-70 -translate-1/2 rounded-full;
+  }
+  .cursor-dot {
+    @apply size-2 bg-paper mix-blend-difference;
+  }
+  .cursor-ring {
+    @apply grid size-[38px] place-items-center border border-paper/50 font-mono text-[11px] text-ink transition-all duration-300;
+  }
+  .cursor-ring span {
+    @apply opacity-0 transition-opacity;
+  }
+  /* Bigger, filled ring with a label when hovering something with data-cursor="…" */
+  .cursor-ring[data-active] {
+    @apply size-[92px] border-accent bg-accent;
+  }
+  .cursor-ring[data-active] span {
+    @apply opacity-100;
+  }
+
+  /* ================= Nav.tsx ================= */
+
+  .progress-bar {
+    @apply fixed inset-x-0 top-0 z-50 h-[3px] origin-left bg-linear-to-r from-accent to-warm;
+  }
+  /* mix-blend-difference inverts the nav against whatever is behind it, so it is always readable. */
+  .nav {
+    @apply fixed inset-x-0 top-0 z-40 flex items-center justify-between gap-4 p-5 text-white mix-blend-difference;
+  }
+  .nav-logo {
+    @apply font-mono text-lg font-bold;
+  }
+  /* Big screens show the links; phones and tablets get the Menu button instead. */
+  .nav-links {
+    @apply hidden gap-6 font-mono text-[13px] lg:flex;
+    counter-reset: nav;
+  }
+  /* 01. skills  02. projects … */
+  .nav-links a::before {
+    counter-increment: nav;
+    content: counter(nav, decimal-leading-zero) ". ";
+    @apply opacity-60;
+  }
+  .menu-button {
+    @apply cursor-pointer rounded-md border border-white/40 px-4 py-1.5 font-mono text-xs lg:hidden;
+  }
+  /* Underline that grows from the left on hover. */
+  .nav-links a {
+    background: linear-gradient(currentColor, currentColor) left bottom / 0 1px
+      no-repeat;
+    transition: background-size 0.3s;
+  }
+  .nav-links a:hover {
+    background-size: 100% 1px;
+  }
+  .nav-status {
+    @apply ml-auto hidden items-center gap-2 rounded-md border border-white/40 px-3 py-1.5 font-mono text-xs sm:flex lg:ml-0;
+  }
+  .nav-status i {
+    @apply size-2 animate-pulse rounded-full bg-code-green;
+  }
+
+  /* Full-screen phone menu. Hidden until opened (the opening animation is in animations.ts). */
+  .mobile-menu {
+    @apply invisible fixed inset-0 z-35 flex flex-col justify-center gap-2 bg-ink-2 px-6 lg:hidden;
+    clip-path: circle(0% at calc(100% - 40px) 36px);
+  }
+  .mobile-menu a {
+    @apply flex items-baseline gap-4 py-1 font-display text-4xl font-bold tracking-tight transition-colors hover:text-accent;
+  }
+  .mobile-menu a span {
+    @apply font-mono text-xs font-normal text-muted;
+  }
+
+  /* ================= Hero.tsx ================= */
+
+  .hero {
+    @apply relative isolate overflow-hidden pt-36 pb-20;
+  }
+  .hero-glow {
+    @apply absolute -z-10 rounded-full opacity-55 blur-[60px];
+  }
+  .hero-glow.green {
+    @apply -top-16 -right-20 size-[420px] bg-[#14532d];
+  }
+  .hero-glow.purple {
+    @apply -bottom-10 left-[30%] size-[300px] bg-[#0c4a6e];
+  }
+  .hero-canvas {
+    @apply pointer-events-none absolute inset-0 size-full;
+  }
+  .hero-content {
+    @apply wrap relative;
+  }
+  /*
+    3D cube on the right of the hero (big screens only). Six faces, each pushed out
+    by half the cube size (--half) and turned to face its own side.
+    It spins and follows the mouse via useHeroCube in animations.ts.
+  */
+  .hero-cube-scene {
+    @apply pointer-events-none absolute top-[42%] right-[9%] hidden -translate-y-1/2 lg:block;
+    perspective: 1100px;
+  }
+  .hero-cube {
+    --half: 120px;
+    @apply relative size-[240px] xl:size-[290px];
+    transform-style: preserve-3d;
+    transform: rotateX(-22deg) rotateY(35deg);
+  }
+  @media (width >= 80rem) {
+    .hero-cube {
+      --half: 145px;
+    }
+  }
+  .hero-cube-face {
+    @apply absolute inset-0 grid place-items-center rounded-xl border border-accent/50 font-display text-xl font-bold tracking-tight text-paper xl:text-2xl;
+    background: linear-gradient(135deg, rgb(74 222 128 / 0.2), rgb(22 27 34 / 0.88) 60%);
+    box-shadow: inset 0 0 40px rgb(74 222 128 / 0.15);
+  }
+  .hero-cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(var(--half)); }
+  .hero-cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(var(--half)); }
+  .hero-cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(var(--half)); }
+  .hero-cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(var(--half)); }
+  .hero-cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(var(--half)); }
+  .hero-cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(var(--half)); }
+  /* Soft shadow on the "floor" under the cube. */
+  .hero-cube-shadow {
+    @apply absolute -bottom-24 left-1/2 h-10 w-[80%] -translate-x-1/2 rounded-[50%] bg-accent/25 blur-2xl;
+  }
+
+  /* "$ whoami" terminal line above the name. */
+  .hero-hint {
+    @apply flex flex-wrap items-center gap-3 font-mono text-sm text-paper md:text-base;
+  }
+  .hero-hint b {
+    @apply font-medium text-accent;
+  }
+  /* Mouse hint: not shown on phones. */
+  .hero-hint span {
+    @apply hidden rounded-md border border-line px-2 py-0.5 text-xs text-muted sm:inline;
+  }
+  .hero-title {
+    @apply mt-5 font-display text-[clamp(3.25rem,0.5rem+12vw,11rem)] leading-[0.9] font-extrabold tracking-[-0.06em];
+  }
+  .hero-title span {
+    @apply block pb-[0.04em];
+  }
+  .hero-title span:last-child {
+    @apply pl-[12vw] text-accent;
+  }
+  /* When the canvas draws the name, the real text is invisible (it stays for screen readers and SEO). */
+  .hero[data-particles] .hero-title span {
+    @apply text-transparent;
+  }
+  .hero-foot {
+    @apply mt-12 flex flex-wrap items-end justify-between gap-6;
+  }
+  .hero-foot p {
+    @apply max-w-[40ch] text-muted;
+  }
+  .hero-foot strong {
+    @apply font-medium text-paper;
+  }
+  .hero-foot a {
+    @apply font-mono text-xs text-muted;
+  }
+  /* "Currently Software Developer at …" pill, between the name and the text below it. */
+  .hero-current {
+    @apply mt-10 inline-block rounded-md border border-line bg-ink-2/80 px-4 py-2 font-mono text-[13px] backdrop-blur transition-colors hover:border-accent;
+  }
+  .hero-current i {
+    @apply mr-2.5 inline-block size-2 animate-pulse rounded-full bg-code-green align-middle;
+  }
+  .hero-current strong {
+    @apply font-semibold text-accent;
+  }
+
+  /* ================= Spotlight.tsx ================= */
+
+  .spotlight-box {
+    @apply grid touch-pan-y rounded-xl border border-line bg-ink-2/60;
+  }
+  /* Both sentences sit in the same grid cell, on top of each other. */
+  .spotlight-box p {
+    @apply col-start-1 row-start-1 p-6 font-display text-3xl leading-tight font-bold tracking-tight text-balance md:p-12 md:text-6xl;
+  }
+  .spotlight-base {
+    @apply text-paper/30;
+  }
+  /* Only the circle around the pointer shows (--x, --y, --r are set by GSAP). */
+  .spotlight-hidden {
+    @apply rounded-xl bg-accent text-ink;
+    clip-path: circle(var(--r, 0px) at var(--x, 50%) var(--y, 50%));
+  }
+  /* Without animation, show the hidden sentence underneath instead. */
+  .spotlight-box[data-static] {
+    @apply gap-3;
+  }
+  .spotlight-box[data-static] .spotlight-hidden {
+    @apply row-start-2;
+    clip-path: none;
+  }
+
+  /* ================= Compile.tsx ================= */
+
+  .compile {
+    @apply grid items-center py-20 min-[900px]:min-h-svh min-[900px]:pt-20 min-[900px]:pb-7;
+  }
+  /* Big screens: editor on the left, heading + card on the right. */
+  .compile-grid {
+    @apply wrap grid w-full gap-7 min-[900px]:grid-cols-[1.15fr_1fr] min-[900px]:grid-rows-[auto_1fr] min-[900px]:gap-x-9;
+  }
+  .compile-head {
+    @apply min-[900px]:col-start-2;
+  }
+  .compile-head b {
+    @apply font-medium text-accent;
+  }
+  .compile-head h2 {
+    @apply mt-3 max-w-[16ch] font-display text-4xl leading-[0.95] font-extrabold tracking-tight lg:text-6xl;
+  }
+
+  .editor {
+    @apply flex min-w-0 flex-col overflow-hidden rounded-xl border border-line bg-[#010409] min-[900px]:col-start-1 min-[900px]:row-span-2 min-[900px]:row-start-1;
+  }
+  .editor-bar {
+    @apply flex items-center gap-2 border-b border-line px-4 py-3 font-mono text-xs text-muted;
+  }
+  /* macOS-style window buttons */
+  .editor-bar i {
+    @apply size-3 rounded-full bg-[#ff5f57];
+  }
+  .editor-bar i:nth-child(2) {
+    @apply bg-[#febc2e];
+  }
+  .editor-bar i:nth-child(3) {
+    @apply bg-[#28c840];
+  }
+  .editor-bar span {
+    @apply ml-2.5;
+  }
+  .editor-code {
+    @apply flex-1 overflow-x-auto py-3 font-mono text-[11px] leading-[1.6] lg:text-sm;
+  }
+  .editor-line {
+    @apply flex min-h-[1.6em];
+  }
+  .editor-line-number {
+    @apply w-11 flex-none pr-4 text-right text-paper/25 select-none;
+  }
+  .editor-status {
+    @apply border-t border-line px-4 py-2.5 font-mono text-xs text-muted;
+  }
+  .editor-status[data-done] {
+    @apply bg-code-green text-ink;
+  }
+
+  /* Syntax colours */
+  .tok-keyword {
+    @apply text-[#ff7b72];
+  }
+  .tok-type {
+    @apply text-[#ffa657];
+  }
+  .tok-key {
+    @apply text-[#79c0ff];
+  }
+  .tok-string {
+    @apply text-[#a5d6ff];
+  }
+  .tok-value {
+    @apply text-[#79c0ff];
+  }
+  .tok-plain {
+    @apply text-paper;
+  }
+  .tok-fn {
+    @apply text-[#d2a8ff];
+  }
+  .tok-comment {
+    @apply text-muted italic;
+  }
+
+  /* Blinking caret on the token being typed. */
+  [data-caret]::after {
+    content: "";
+    @apply ml-px inline-block h-[1.1em] w-[0.55em] animate-blink bg-accent align-[-0.15em];
+  }
+
+  .render-card {
+    @apply relative flex flex-col gap-5 rounded-xl border border-line bg-ink-2 p-6 md:p-7;
+    background-image: radial-gradient(circle at 85% 0%, rgb(74 222 128 / 0.14), transparent 55%);
+  }
+  .render-url {
+    @apply font-mono text-[11px] text-muted;
+  }
+  .render-running {
+    @apply absolute top-6 right-6 rounded-md bg-code-green px-2.5 py-1 font-mono text-[11px] text-ink;
+  }
+  .render-who {
+    @apply flex items-center gap-4;
+  }
+  .render-avatar {
+    @apply grid size-16 flex-none place-items-center rounded-lg bg-accent font-display text-2xl font-extrabold text-ink;
+  }
+  .render-name {
+    @apply font-display text-2xl leading-none font-bold tracking-tight md:text-3xl;
+  }
+  .render-company {
+    @apply text-accent;
+  }
+  .render-role {
+    @apply mt-1.5 text-muted;
+  }
+  .render-location {
+    @apply font-mono text-sm;
+  }
+  .render-skills {
+    @apply flex flex-wrap gap-2;
+  }
+  .render-skills li {
+    @apply rounded-md border border-accent/40 bg-accent/5 px-2.5 py-1 font-mono text-xs;
+  }
+  .render-stats {
+    @apply mt-auto flex flex-wrap gap-x-7 gap-y-3;
+  }
+  .render-stats p {
+    @apply flex items-center gap-2;
+  }
+  .render-stats strong {
+    @apply font-display text-4xl leading-none;
+  }
+  .render-stats i {
+    @apply size-2 rounded-full bg-code-green;
+  }
+
+  /* Card pieces stay blurred until their line of code is typed. */
+  [data-reveal] {
+    transition:
+      opacity 0.5s,
+      translate 0.5s,
+      filter 0.5s;
+  }
+  [data-reveal]:not([data-shown]) {
+    @apply translate-y-2.5 opacity-[0.12] blur-sm;
+  }
+
+  /* ================= About.tsx ================= */
+
+  .about-text {
+    @apply max-w-[26ch] font-display text-2xl leading-[1.25] font-semibold tracking-tight md:text-5xl;
+  }
+  .about-text span {
+    @apply mr-[0.24em] inline-block;
+  }
+  .about-text .highlight {
+    @apply text-accent;
+  }
+
+  /* ================= Marquee.tsx ================= */
+
+  .marquee {
+    @apply overflow-hidden border-y border-line bg-ink-2 py-7 whitespace-nowrap;
+  }
+  .marquee-track {
+    @apply inline-flex;
+  }
+  .marquee-item {
+    @apply inline-flex items-center gap-[0.5em] pr-[0.5em] font-display text-4xl font-extrabold tracking-tight md:text-7xl;
+  }
+  /* Every second word is only outlined. */
+  .marquee-item:nth-child(even) {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--color-paper);
+  }
+  .marquee-item i {
+    @apply inline-block text-[0.6em] text-accent not-italic;
+    -webkit-text-stroke: 0;
+  }
+
+  /* ================= Skills.tsx ================= */
+
+  .skills-grid {
+    @apply grid gap-5 md:grid-cols-3;
+  }
+  .skill-card {
+    @apply relative flex flex-col gap-5 rounded-xl border border-line bg-ink-2 p-7 transition-colors duration-300 hover:border-accent/60;
+  }
+  .skill-card-number {
+    @apply font-mono text-xs text-muted;
+  }
+  .skill-card h3 {
+    @apply font-display text-2xl font-bold tracking-tight md:text-3xl;
+  }
+  .skill-card ul {
+    @apply flex flex-wrap gap-2;
+  }
+  .skill-card li {
+    @apply rounded-md border border-line bg-ink px-3 py-1.5 font-mono text-[13px] transition-colors duration-200 hover:border-accent hover:bg-accent hover:text-ink;
+  }
+
+  /* ================= Projects.tsx ================= */
+
+  /* Project picture: the image, or a gradient from the project's colours (--c0, --c1, --c2). */
+  .cover {
+    @apply relative overflow-hidden;
+  }
+  .cover-inner {
+    @apply absolute inset-y-0 -inset-x-[12%];
+    background:
+      radial-gradient(circle at 70% 25%, var(--c0), transparent 45%),
+      radial-gradient(circle at 20% 80%, var(--c1), transparent 50%), var(--c2);
+  }
+  .cover-inner img {
+    @apply size-full object-cover;
+  }
+
+  /* Sideways slider */
+  .slider {
+    @apply relative py-24;
+  }
+  .slider-track {
+    @apply flex snap-x snap-mandatory gap-7 overflow-x-auto px-4;
+  }
+  /* With animation GSAP moves the track, so it is one long row. */
+  .slider[data-animated] {
+    @apply overflow-hidden;
+  }
+  .slider[data-animated] .slider-track {
+    @apply w-max snap-none overflow-visible;
+  }
+  .slider-intro {
+    @apply flex w-[min(80vw,420px)] flex-none flex-col justify-center gap-4;
+  }
+  .slider-intro h2 {
+    @apply font-display text-4xl leading-[0.95] font-extrabold tracking-tight md:text-6xl;
+  }
+  .slider-intro p {
+    @apply text-muted;
+  }
+  .slider-card {
+    @apply flex w-[min(78vw,460px)] flex-none snap-start flex-col gap-3.5;
+  }
+  .slider-card .cover {
+    @apply aspect-[4/5] rounded-xl border border-line transition-[border-color] duration-500;
+  }
+  .slider-card:hover .cover {
+    @apply border-accent;
+  }
+  .slider-card-meta {
+    @apply flex items-baseline justify-between gap-3;
+  }
+  .slider-card-meta h3 {
+    @apply font-display text-2xl font-semibold tracking-tight;
+  }
+  .slider-card-meta span {
+    @apply font-mono text-xs text-muted;
+  }
+
+  /* Project list */
+  .project-list {
+    @apply border-t border-line;
+  }
+  .project-row {
+    @apply scroll-mt-24 border-b border-line;
+  }
+  .project-row-head {
+    @apply grid w-full cursor-pointer grid-cols-[56px_1fr] items-center gap-4 px-1 py-6 text-left transition-all duration-300 sm:grid-cols-[56px_1fr_auto];
+  }
+  .project-row-head:hover,
+  .project-row[data-open] .project-row-head {
+    @apply pl-5 text-accent;
+  }
+  /* Dim the other rows while one is hovered. */
+  .project-list:has(.project-row-head:hover) .project-row-head:not(:hover) {
+    @apply opacity-40;
+  }
+  .project-number,
+  .project-meta {
+    @apply hidden font-mono text-xs text-muted sm:block;
+  }
+  .project-meta {
+    @apply text-right;
+  }
+  .project-row-head .cover {
+    @apply size-14 rounded-[10px] sm:hidden;
+  }
+  .project-title {
+    @apply font-display text-2xl leading-none font-bold tracking-tight md:text-4xl;
+  }
+  /* Smooth open/close: the grid row animates from 0fr to 1fr. */
+  .project-summary {
+    @apply grid grid-rows-[0fr] transition-[grid-template-rows] duration-500;
+  }
+  .project-row[data-open] .project-summary {
+    @apply grid-rows-[1fr];
+  }
+  .project-summary > div {
+    @apply overflow-hidden;
+  }
+  .project-details {
+    @apply flex flex-col gap-4 pr-1 pb-6 pl-[76px];
+  }
+  .project-details p {
+    @apply max-w-[60ch] text-muted;
+  }
+  .tech-tags {
+    @apply flex flex-wrap gap-2;
+  }
+  .tech-tags li {
+    @apply rounded-md border border-line bg-ink-2 px-2.5 py-1 font-mono text-xs text-paper;
+  }
+  .project-links {
+    @apply flex flex-wrap gap-5 text-sm;
+  }
+  .project-links a {
+    @apply border-b border-accent/50 pb-0.5 text-accent transition-colors hover:border-accent;
+  }
+  /* Floating picture that follows the mouse. */
+  .project-preview {
+    @apply pointer-events-none fixed top-0 left-0 z-30 h-[340px] w-[280px] -translate-1/2 overflow-hidden rounded-xl border border-accent/40;
+  }
+  .project-preview .cover {
+    @apply absolute inset-0 opacity-0 transition-opacity duration-300;
+  }
+  .project-preview .cover[data-active] {
+    @apply opacity-100;
+  }
+
+  /* ================= Timeline.tsx (Experience + Education) ================= */
+
+  /* Vertical line on the left; .timeline-progress is the part that fills while scrolling. */
+  .timeline {
+    @apply relative pl-8 md:pl-12;
+  }
+  .timeline::before,
+  .timeline-progress {
+    @apply absolute top-2 bottom-2 left-[5px] w-px md:left-[7px];
+  }
+  .timeline::before {
+    content: "";
+    @apply bg-line;
+  }
+  .timeline-progress {
+    @apply origin-top bg-linear-to-b from-accent to-warm;
+  }
+  .timeline ol {
+    @apply flex flex-col gap-14;
+  }
+  .timeline-item {
+    @apply relative grid gap-3 md:grid-cols-[200px_1fr] md:gap-10;
+  }
+  /* The dot on the line; it lights up when the progress line reaches it. */
+  .timeline-item::before {
+    content: "";
+    @apply absolute top-2 -left-8 size-3 rounded-full border-2 border-line bg-ink transition-colors duration-300 md:-left-12 md:size-4;
+  }
+  .timeline-item[data-reached]::before,
+  .timeline[data-static] .timeline-item::before {
+    @apply border-accent bg-accent;
+  }
+  .timeline-period {
+    @apply pt-1 font-mono text-xs tracking-wide text-muted;
+  }
+  .timeline-item h3 {
+    @apply font-display text-xl font-bold tracking-tight md:text-2xl;
+  }
+  .timeline-subtitle {
+    @apply mt-1 text-accent;
+  }
+  .timeline-subtitle a {
+    @apply border-b border-accent/40 hover:border-accent;
+  }
+  .timeline-current {
+    @apply mt-2 block w-fit rounded-md bg-code-green px-2 py-0.5 font-medium text-ink;
+  }
+  /* The current job's dot glows. */
+  .timeline-item[data-current]::before {
+    @apply shadow-[0_0_0_6px_rgb(74_222_128/0.25)];
+  }
+  .timeline-item ul {
+    @apply mt-4 flex max-w-[60ch] flex-col gap-2 text-muted;
+  }
+  .timeline-item ul li {
+    @apply relative pl-5;
+  }
+  .timeline-item ul li::before {
+    content: "▹";
+    @apply absolute left-0 text-accent;
+  }
+
+  /* ================= Process.tsx ================= */
+
+  .process-list {
+    @apply flex flex-col gap-10 pb-[20vh];
+  }
+  .process-card {
+    @apply sticky top-[90px] grid min-h-[300px] origin-top gap-6 rounded-xl border border-line border-t-4 bg-ink-2 p-6 text-paper shadow-2xl shadow-black/50 md:grid-cols-2 md:p-12;
+  }
+  /* Each card sticks a little lower than the one before, so they pile up. */
+  .process-card:nth-child(2) {
+    @apply top-[108px];
+  }
+  .process-card:nth-child(3) {
+    @apply top-[126px];
+  }
+  .process-card:nth-child(4) {
+    @apply top-[144px];
+  }
+  .process-card:nth-child(5) {
+    @apply top-[162px];
+  }
+  .process-card:nth-child(6) {
+    @apply top-[180px];
+  }
+  /* Each card's top edge has its own colour, repeating every four cards. */
+  .process-card:nth-child(4n + 1) {
+    @apply border-t-accent;
+  }
+  .process-card:nth-child(4n + 2) {
+    @apply border-t-warm;
+  }
+  .process-card:nth-child(4n + 3) {
+    @apply border-t-[#d2a8ff];
+  }
+  .process-card:nth-child(4n + 4) {
+    @apply border-t-[#ffa657];
+  }
+  /* "$ step 1 of 4" like a terminal prompt */
+  .process-card span {
+    @apply font-mono text-sm text-muted;
+  }
+  .process-card span::before {
+    content: "$ ";
+    @apply text-accent;
+  }
+  .process-card h3 {
+    @apply mt-2.5 font-display text-4xl leading-[0.95] font-extrabold tracking-tighter md:text-7xl;
+  }
+  .process-card p {
+    @apply max-w-[40ch] self-end text-lg text-muted;
+  }
+
+  /* ================= Contact.tsx ================= */
+
+  .contact {
+    @apply wrap pt-36 pb-20;
+  }
+  .contact-title {
+    @apply mb-14 font-display text-[clamp(44px,10vw,150px)] leading-[0.9] font-extrabold tracking-[-0.06em];
+  }
+  .contact-title > span {
+    @apply block overflow-hidden;
+  }
+  .contact-title > span:last-child {
+    @apply text-accent;
+  }
+  .contact-title span span {
+    @apply inline-block;
+  }
+  .contact-grid {
+    @apply grid items-start gap-12 md:grid-cols-2;
+  }
+  .contact-direct {
+    @apply flex min-w-0 flex-col items-start gap-3.5;
+  }
+  .contact-email {
+    @apply border-b border-line pb-1.5 font-mono text-lg break-all md:text-xl;
+  }
+  .copy-button {
+    @apply cursor-pointer rounded-md border border-line px-4 py-2 font-mono text-[13px] transition-colors hover:bg-paper hover:text-ink;
+  }
+  .contact-buttons {
+    @apply flex flex-wrap gap-3;
+  }
+  .resume-button {
+    @apply rounded-md bg-paper px-4 py-2 font-mono text-[13px] font-semibold text-ink transition-colors hover:bg-accent;
+  }
+  /* GitHub, LinkedIn… */
+  .social-links {
+    @apply mt-6 flex flex-wrap gap-x-6 gap-y-2;
+  }
+  .social-links a {
+    @apply font-display text-xl font-bold tracking-tight transition-colors hover:text-accent;
+  }
+  .contact-form {
+    @apply grid min-w-0 gap-5 sm:grid-cols-2;
+  }
+  .contact-form label {
+    @apply flex flex-col gap-2 font-mono text-xs tracking-wide text-muted;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    @apply border-b border-line bg-transparent py-2.5 font-sans text-lg text-paper outline-none transition-colors focus:border-accent;
+  }
+  .contact-form textarea {
+    @apply resize-y;
+  }
+  /* Red line only after the visitor has typed something invalid. */
+  .contact-form :is(input, textarea):user-invalid {
+    @apply border-danger;
+  }
+  .contact-form .wide {
+    @apply sm:col-span-2;
+  }
+  .contact-actions {
+    @apply mt-3 flex flex-wrap items-center gap-6 sm:col-span-2;
+  }
+  .send-button {
+    @apply flex-none cursor-pointer rounded-md bg-accent px-7 py-4 font-mono font-bold text-ink transition-shadow hover:shadow-[0_0_30px_rgb(74_222_128/0.45)] disabled:opacity-60;
+  }
+  .contact-status {
+    @apply max-w-[32ch] text-mint;
+  }
+  .contact-status .error {
+    @apply text-danger;
+  }
+
+  /* ================= GitHub.tsx ================= */
+
+  .repo-grid {
+    @apply grid gap-4 md:grid-cols-2 lg:grid-cols-3;
+  }
+  .repo-card {
+    @apply flex flex-col gap-3 rounded-xl border border-line bg-ink-2 p-6 transition-colors duration-300 hover:border-accent/60;
+  }
+  .repo-name {
+    @apply font-mono text-sm text-warm;
+  }
+  .repo-name i {
+    @apply text-muted not-italic;
+  }
+  .repo-name b {
+    @apply font-bold;
+  }
+  .repo-card p {
+    @apply flex-1 text-sm text-muted;
+  }
+  .repo-meta {
+    @apply flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-xs text-muted;
+  }
+  /* Coloured dot before the language name, in GitHub's colour for that language. */
+  .repo-language::before {
+    content: "";
+    @apply mr-1.5 inline-block size-2.5 rounded-full align-[-1px];
+    background: var(--lang, var(--color-muted));
+  }
+  [data-language="TypeScript"] { --lang: #3178c6; }
+  [data-language="JavaScript"] { --lang: #f1e05a; }
+  [data-language="Python"] { --lang: #3572a5; }
+  [data-language="Java"] { --lang: #b07219; }
+  [data-language="Go"] { --lang: #00add8; }
+  [data-language="Rust"] { --lang: #dea584; }
+  [data-language="C++"] { --lang: #f34b7d; }
+  [data-language="C"] { --lang: #555555; }
+  [data-language="HTML"] { --lang: #e34c26; }
+  [data-language="CSS"] { --lang: #563d7c; }
+  [data-language="Shell"] { --lang: #89e051; }
+  [data-language="Dart"] { --lang: #00b4ab; }
+  [data-language="Kotlin"] { --lang: #a97bff; }
+  .repo-all {
+    @apply mt-8 inline-block font-mono text-sm text-accent hover:underline;
+  }
+
+  /* ================= Achievements.tsx ================= */
+
+  .achievements-grid {
+    @apply grid gap-5 md:grid-cols-2;
+  }
+  .achievement-card {
+    @apply flex flex-col gap-3 rounded-xl border border-line bg-ink-2 p-7 transition-colors duration-300 hover:border-accent/60;
+  }
+  .achievement-top {
+    @apply flex items-center justify-between gap-3 font-mono text-xs text-muted;
+  }
+  .achievement-year {
+    @apply rounded-md bg-accent px-2 py-0.5 font-bold text-ink;
+  }
+  .achievement-card h3 {
+    @apply font-display text-xl font-bold tracking-tight md:text-2xl;
+  }
+  .achievement-card p {
+    @apply text-muted;
+  }
+  .achievement-card a {
+    @apply mt-auto self-start border-b border-accent/50 pb-0.5 text-sm text-accent transition-colors hover:border-accent;
+  }
+
+  /* ================= Testimonials.tsx ================= */
+
+  .testimonials-grid {
+    @apply grid gap-5 md:grid-cols-2;
+  }
+  .testimonial-card {
+    @apply relative flex flex-col justify-between gap-8 rounded-xl border border-line bg-ink-2 p-7 md:p-9;
+  }
+  /* Big quote mark in the corner. */
+  .testimonial-card::before {
+    content: "“";
+    @apply pointer-events-none absolute top-0 right-6 font-display text-[120px] leading-none text-accent/15;
+  }
+  .testimonial-card blockquote {
+    @apply relative text-lg leading-relaxed md:text-xl;
+  }
+  .testimonial-card figcaption {
+    @apply flex items-center gap-3;
+  }
+  .testimonial-avatar {
+    @apply grid size-11 flex-none place-items-center rounded-lg bg-accent font-display text-lg font-extrabold text-ink;
+  }
+  .testimonial-card strong {
+    @apply block font-semibold;
+  }
+  .testimonial-card small {
+    @apply block font-mono text-xs text-muted;
+  }
+
+  /* ================= Articles.tsx ================= */
+
+  .article-list {
+    @apply border-t border-line;
+  }
+  .article-list li {
+    @apply border-b border-line;
+  }
+  .article-row {
+    @apply grid grid-cols-1 gap-1 py-6 transition-all duration-300 hover:pl-4 hover:text-accent sm:grid-cols-[110px_1fr_auto] sm:items-baseline sm:gap-6;
+  }
+  .article-date,
+  .article-platform {
+    @apply font-mono text-xs text-muted;
+  }
+  .article-title {
+    @apply font-display text-lg font-bold tracking-tight md:text-2xl;
+  }
+
+  /* ================= Footer.tsx ================= */
+
+  .footer {
+    @apply wrap flex flex-wrap justify-between gap-3 border-t border-line pt-7 pb-10 font-mono text-xs text-muted;
+  }
+  .footer a:hover {
+    @apply text-paper;
+  }
+  .footer-links {
+    @apply flex gap-4;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

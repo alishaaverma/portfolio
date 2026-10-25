@@ -1,0 +1,6 @@
+[
+  { "title": "Understand", "body": "Read the problem, talk to the people who have it, and write down what success looks like before any code." },
+  { "title": "Design", "body": "Sketch the data model, the API and the screens together, so the system and the interface fit each other." },
+  { "title": "Build", "body": "Typed, tested code in small pull requests. React and TypeScript on the front, Python and FastAPI on the back." },
+  { "title": "Ship", "body": "Deploy, monitor, fix what real users find. Shipping is the start of the work, not the end." }
+]

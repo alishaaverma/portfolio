@@ -1,0 +1,23 @@
+[
+  {
+    "role": "Software Developer",
+    "company": "Botlab Dynamics",
+    "period": "july 2026 — Present",
+    "points": [
+      "Built and shipped features used by thousands of people every day.",
+      "Write one line per achievement, ideally with a number in it."
+    ],
+    "current": true,
+    "url": "https://botlabdynamics.com/"
+  },
+  {
+    "role": "Developer Intern",
+    "company": "Insight Route",
+    "period": "2025-2026",
+    "points": [
+      "Rebuilt the dashboard in React and TypeScript.",
+      "Replace these entries with your own in backend/data/experience.json."
+    ],
+    "current": false
+  }
+]

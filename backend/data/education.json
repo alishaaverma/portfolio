@@ -1,0 +1,22 @@
+[
+  {
+    "degree": "High School",
+    "school": "Dr. Savita Memorial Global Accademy, Mirzapur",
+    "period": "before 2019",
+    "points": ["CGPA: 8.0 / 10"]
+  },
+
+  {
+    "degree": "Diploma in Information Technology",
+    "school": "Ambition Institute of Technology, Varanasi",
+    "period": " 2019-2022",
+    "points": ["CGPA: 8.5 / 10"]
+  },
+
+  {
+    "degree": "B.Tech in Computer Science",
+    "school": "Accurate Institute of Management and Technology, Greater Noida",
+    "period": " 2022— 2025",
+    "points": ["CGPA: 8.3 / 10"]
+  }
+]

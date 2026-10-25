@@ -1,0 +1,24 @@
+{
+  "first_name": "Alisha",
+  "last_name": "Verma",
+  "role": "Software developer",
+  "location": "New Delhi",
+  "tagline": "I build fast, reliable web apps, from the database to the last pixel.",
+  "about": "I write *software* that people enjoy using. React and TypeScript on the front, Python on the back, and a habit of sweating the details: load times, edge cases, and how an interface *feels* under your fingers.",
+  "email": "alishav2105@gmail.com",
+  "available": true,
+  "spotlight_base": "Most developer portfolios list technologies.",
+  "spotlight_hidden": "This one shows you what I build with them.",
+  "links": [
+    {
+      "label": "GitHub",
+      "url": "https://github.com/alishaaverma"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/alisha-verma-1b8126223"
+    }
+  ],
+  "resume_url": "https://github.com/alishaaverma",
+  "github_username": "alishaaverma"
+}

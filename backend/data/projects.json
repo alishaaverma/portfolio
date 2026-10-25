@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "orbit",
+    "title": "Orbit",
+    "category": "Fintech app",
+    "year": 2026,
+    "summary": "A budgeting app that turns spending into a solar system you can explore.",
+    "image_url": null,
+    "colors": ["#f2b27a", "#c4b5fd", "#2d4a3e"],
+    "tech": ["React", "TypeScript", "FastAPI", "PostgreSQL"],
+    "github_url": "https://github.com/yourname/orbit",
+    "live_url": null
+  },
+  {
+    "slug": "monsoon",
+    "title": "Monsoon",
+    "category": "Weather journal",
+    "year": 2025,
+    "summary": "A daily weather diary with rain you can feel through haptics.",
+    "image_url": null,
+    "colors": ["#7aa7f2", "#c4b5fd", "#1f3355"],
+    "tech": ["React Native", "Node.js", "MongoDB"],
+    "github_url": "https://github.com/yourname/monsoon",
+    "live_url": null
+  },
+  {
+    "slug": "kiln",
+    "title": "Kiln",
+    "category": "Ceramics store",
+    "year": 2025,
+    "summary": "E-commerce for a pottery studio, with 3D product turntables.",
+    "image_url": null,
+    "colors": ["#e07a4f", "#d9c4a8", "#5b3a2a"],
+    "tech": ["Next.js", "Three.js", "Stripe"],
+    "github_url": "https://github.com/yourname/kiln",
+    "live_url": null
+  },
+  {
+    "slug": "tide",
+    "title": "Tide",
+    "category": "Music player",
+    "year": 2024,
+    "summary": "A web music player whose waveform reacts to the room's light.",
+    "image_url": null,
+    "colors": ["#7ee0a3", "#2a8a6a", "#10241c"],
+    "tech": ["TypeScript", "Web Audio API", "Canvas"],
+    "github_url": "https://github.com/yourname/tide",
+    "live_url": null
+  },
+  {
+    "slug": "atlas",
+    "title": "Atlas",
+    "category": "Travel guide",
+    "year": 2024,
+    "summary": "An editorial travel site with scroll-driven maps.",
+    "image_url": null,
+    "colors": ["#f2d27a", "#e98a6a", "#5a4a8a"],
+    "tech": ["React", "GSAP", "Mapbox"],
+    "github_url": "https://github.com/yourname/atlas",
+    "live_url": null
+  }
+]
