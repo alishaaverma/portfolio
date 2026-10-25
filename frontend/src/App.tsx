@@ -57,9 +57,12 @@ export default function App() {
 
   // The job marked "current": true in experience.json (shown in the hero and the compile card).
   const currentJob = site?.experience.find((job) => job.current) ?? null;
-  // The hero cube has six faces: your first six skills (repeated if you have fewer).
-  const allSkills = site?.skills.flatMap((g) => g.items) ?? [];
-  const cubeFaces = Array.from({ length: 6 }, (_, i) => allSkills[i % Math.max(allSkills.length, 1)] ?? '</>');
+  // The hero cube has six faces. Skills are taken from each group in turn (the 1st of every
+  // group, then the 2nd…), so the cube shows a mix like React, Python, MongoDB, AWS…
+  const groups = site?.skills.map((g) => g.items) ?? [];
+  const longest = Math.max(0, ...groups.map((items) => items.length));
+  const mixedSkills = Array.from({ length: longest }, (_, i) => groups.map((items) => items[i])).flat().filter(Boolean) as string[];
+  const cubeFaces = Array.from({ length: 6 }, (_, i) => mixedSkills[i % Math.max(mixedSkills.length, 1)] ?? '</>');
 
   return (
     <>

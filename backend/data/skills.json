@@ -1,5 +1,7 @@
 [
-  { "category": "Frontend", "items": ["React", "TypeScript", "Tailwind CSS", "GSAP"] },
-  { "category": "Backend", "items": ["Python", "FastAPI", "Node.js", "PostgreSQL"] },
-  { "category": "Tools", "items": ["Git", "Docker", "Linux", "VS Code"] }
+  { "category": "Frontend", "items": ["React", "TypeScript", "JavaScript", "Tailwind CSS", "Vite", "HTML5", "CSS3"] },
+  { "category": "Backend", "items": ["Python", "FastAPI", "Django", "Django REST Framework", "Flask", "Java", "REST APIs", "Solidity"] },
+  { "category": "Database", "items": ["MongoDB", "PostgreSQL"] },
+  { "category": "Cloud & DevOps", "items": ["AWS", "Amazon S3", "AWS Lambda", "AWS Amplify", "CloudFront", "Docker", "Git", "GitHub"] },
+  { "category": "CMS & Tools", "items": ["WordPress", "Elementor", "Custom CMS", "VS Code"] }
 ]
