@@ -7,17 +7,17 @@ const ALL_LINKS = [
   { href: '#skills', label: 'Skills' },
   { href: '#work', label: 'Projects' },
   { href: '#github', label: 'GitHub' },
+  { href: '#websites', label: 'Live sites' },
   { href: '#experience', label: 'Experience' },
   { href: '#education', label: 'Education' },
   { href: '#achievements', label: 'Achievements' },
-  { href: '#writing', label: 'Writing' },
   { href: '#contact', label: 'Contact' },
 ];
 
 interface Props {
   profile: Profile;
   animate: boolean;
-  /** Section ids that are empty (so hidden on the page), e.g. ['#writing']. Their links are left out. */
+  /** Section ids that are empty (so hidden on the page), e.g. ['#websites']. Their links are left out. */
   hiddenSections: string[];
 }
 

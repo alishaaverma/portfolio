@@ -1,0 +1,16 @@
+[
+  {
+    "name": "kalkiGen",
+    "url": "https://kalkigen.com",
+    "description": "Software, website and Android app development studio in India.",
+    "role": "Write what you did here, e.g. \"Built the website frontend\".",
+    "image_url": "/media/sites/kalkigen.jpg"
+  },
+  {
+    "name": "kalkiGen Agreements",
+    "url": "https://agreements.kalkigen.com",
+    "description": "Create, e-sign and verify kalkiGen service agreements.",
+    "role": "Write what you did here, e.g. \"Built the e-sign and verification flow\".",
+    "image_url": "/media/sites/agreements.jpg"
+  }
+]

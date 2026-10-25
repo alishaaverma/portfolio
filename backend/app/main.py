@@ -20,7 +20,6 @@ from pydantic import TypeAdapter, ValidationError
 
 from .schemas import (
     Achievement,
-    Article,
     ContactIn,
     Education,
     Job,
@@ -31,6 +30,7 @@ from .schemas import (
     SkillGroup,
     Site,
     Testimonial,
+    Website,
 )
 
 # ---------- settings (from environment variables or backend/.env) ----------
@@ -104,7 +104,7 @@ def get_site() -> Site:
         education=load("education.json", list[Education]),
         achievements=load("achievements.json", list[Achievement]),
         testimonials=load("testimonials.json", list[Testimonial]),
-        articles=load("articles.json", list[Article]),
+        websites=load("websites.json", list[Website]),
     )
 
 

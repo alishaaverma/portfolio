@@ -97,11 +97,16 @@ class Testimonial(CamelModel):
     role: str  # e.g. "Engineering Manager, Acme"
 
 
-class Article(CamelModel):
-    title: str
+class Website(CamelModel):
+    """A live website you built or worked on."""
+
+    name: str
     url: str
-    platform: str  # e.g. "Medium", "dev.to", "My blog"
-    date: str  # e.g. "Mar 2025"
+    description: str | None = None
+    # What you did on it, e.g. "Built the frontend and the e-sign flow".
+    role: str | None = None
+    # Screenshot: "/media/sites/<file>" (put it in backend/media/sites) or a full URL.
+    image_url: str | None = None
 
 
 class SkillGroup(CamelModel):
@@ -120,7 +125,7 @@ class Site(CamelModel):
     education: list[Education]
     achievements: list[Achievement]
     testimonials: list[Testimonial]
-    articles: list[Article]
+    websites: list[Website]
 
 
 class Repo(CamelModel):

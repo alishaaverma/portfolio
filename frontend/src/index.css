@@ -546,7 +546,11 @@
   /* ================= About.tsx ================= */
 
   .about-text {
-    @apply max-w-[26ch] font-display text-2xl leading-[1.25] font-semibold tracking-tight md:text-5xl;
+    @apply flex max-w-[26ch] flex-col gap-[0.8em] font-display text-2xl leading-[1.25] font-semibold tracking-tight md:text-5xl;
+  }
+  /* Long About text (more than 60 words): smaller font so it doesn't fill several screens. */
+  .about-text[data-long] {
+    @apply max-w-[70ch] font-sans text-lg leading-relaxed font-normal tracking-normal md:text-2xl;
   }
   .about-text span {
     @apply mr-[0.24em] inline-block;
@@ -956,6 +960,8 @@
   [data-language="Shell"] { --lang: #89e051; }
   [data-language="Dart"] { --lang: #00b4ab; }
   [data-language="Kotlin"] { --lang: #a97bff; }
+  [data-language="Solidity"] { --lang: #aa6746; }
+  [data-language="PHP"] { --lang: #4f5d95; }
   .repo-all {
     @apply mt-8 inline-block font-mono text-sm text-accent hover:underline;
   }
@@ -1013,23 +1019,72 @@
     @apply block font-mono text-xs text-muted;
   }
 
-  /* ================= Articles.tsx ================= */
+  /* ================= Websites.tsx ================= */
 
-  .article-list {
-    @apply border-t border-line;
+  .websites-grid {
+    @apply grid gap-6 md:grid-cols-2;
   }
-  .article-list li {
-    @apply border-b border-line;
+  /* Each site is shown inside a little browser window. */
+  .site-card {
+    @apply flex flex-col overflow-hidden rounded-xl border border-line bg-ink-2 transition-colors duration-300 hover:border-accent/60;
   }
-  .article-row {
-    @apply grid grid-cols-1 gap-1 py-6 transition-all duration-300 hover:pl-4 hover:text-accent sm:grid-cols-[110px_1fr_auto] sm:items-baseline sm:gap-6;
+  .site-bar {
+    @apply flex items-center gap-2 border-b border-line bg-ink px-4 py-2.5;
   }
-  .article-date,
-  .article-platform {
-    @apply font-mono text-xs text-muted;
+  .site-bar i {
+    @apply size-2.5 flex-none rounded-full bg-[#ff5f57];
   }
-  .article-title {
-    @apply font-display text-lg font-bold tracking-tight md:text-2xl;
+  .site-bar i:nth-child(2) {
+    @apply bg-[#febc2e];
+  }
+  .site-bar i:nth-child(3) {
+    @apply bg-[#28c840];
+  }
+  .site-address {
+    @apply ml-2 flex-1 truncate rounded-md bg-ink-2 px-3 py-1 font-mono text-xs text-muted;
+  }
+  .site-address::before {
+    content: "🔒 ";
+  }
+  .site-live {
+    @apply flex flex-none items-center gap-1.5 font-mono text-[11px] text-accent;
+  }
+  .site-live::before {
+    content: "";
+    @apply size-1.5 animate-pulse rounded-full bg-accent;
+  }
+  .site-screen {
+    @apply relative aspect-[16/10] overflow-hidden border-b border-line bg-ink;
+  }
+  .site-screen img {
+    @apply size-full object-cover object-top transition-transform duration-700;
+  }
+  .site-card:hover .site-screen img {
+    @apply scale-105;
+  }
+  /* No screenshot: show the domain big, like a placeholder page. */
+  .site-placeholder {
+    @apply grid size-full place-items-center p-6 text-center font-display text-xl font-bold break-all text-paper/80 md:text-2xl;
+    background-image: radial-gradient(circle at 50% 120%, rgb(74 222 128 / 0.18), transparent 60%);
+  }
+  .site-body {
+    @apply flex flex-1 flex-col gap-2 p-6;
+  }
+  .site-body h3 {
+    @apply font-display text-xl font-bold tracking-tight md:text-2xl;
+  }
+  .site-body p {
+    @apply text-muted;
+  }
+  .site-role {
+    @apply font-mono text-sm text-paper;
+  }
+  .site-role::before {
+    content: "▹ ";
+    @apply text-accent;
+  }
+  .site-visit {
+    @apply mt-auto pt-2 font-mono text-sm text-accent;
   }
 
   /* ================= Footer.tsx ================= */

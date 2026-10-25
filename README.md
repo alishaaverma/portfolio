@@ -13,7 +13,7 @@ portfolio/
 │   │   ├── education.json   your degrees/courses (Education timeline)
 │   │   ├── achievements.json  hackathons, awards, certificates
 │   │   ├── testimonials.json  quotes from people you worked with
-│   │   ├── articles.json      links to blog posts you wrote (Writing section)
+│   │   ├── websites.json      live websites you built or worked on (screenshots in media/sites)
 │   │   └── process.json     the stacking "How I work" cards
 │   ├── media/               project images, served at /media/<file>
 │   ├── app/
@@ -130,9 +130,9 @@ Mark your present job with `"current": true`: it then shows in the hero ("Curren
 
 **testimonials.json**: `{ "quote": "…", "name": "Asha Rao", "role": "Engineering Manager, Acme" }`
 
-**articles.json**: `{ "title": "…", "url": "https://dev.to/…", "platform": "dev.to", "date": "Mar 2025" }`
+**websites.json**: live sites you built or worked on, shown in a browser-window card: `{ "name": "kalkiGen", "url": "https://kalkigen.com", "description": "…", "role": "What you did", "image_url": "/media/sites/kalkigen.jpg" }`. Put screenshots in `backend/media/sites/`; with `"image_url": null` the card shows the domain instead.
 
-**Optional sections hide themselves.** If `experience.json`, `education.json`, `achievements.json`, `testimonials.json` or `articles.json` is just `[]`, that section and its nav link disappear. Handy if, for example, you don't have work experience yet.
+**Optional sections hide themselves.** If `experience.json`, `education.json`, `achievements.json`, `testimonials.json` or `websites.json` is just `[]`, that section and its nav link disappear. Handy if, for example, you don't have work experience yet.
 
 **skills.json**: one group per category. Add as many groups or skills as you like:
 ```json
@@ -182,7 +182,7 @@ All animation code is in `frontend/src/animations.ts`, one hook per effect (e.g.
 | Pinned horizontal projects, velocity skew, inner parallax | `Projects.tsx` | `containerAnimation`, `getVelocity()` |
 | Floating picture that follows the cursor, rows that expand | `Projects.tsx` | `quickTo`, `grid-rows-[0fr] → [1fr]` |
 | GitHub repo cards (live from the GitHub API) | `GitHub.tsx` | `useCardsReveal` + `useRefreshScrollOnChange` (the page grows when they load) |
-| Cards and rows rise in one after another | `Skills.tsx`, `Achievements.tsx`, `Testimonials.tsx`, `Articles.tsx` | `useCardsReveal`: ScrollTrigger timeline with stagger |
+| Cards and rows rise in one after another | `Skills.tsx`, `Achievements.tsx`, `Testimonials.tsx`, `Websites.tsx` | `useCardsReveal`: ScrollTrigger timeline with stagger |
 | 3D tilt + moving light on cards, content floats above the card (add class `tilt` to any element) | `App.tsx` | `useTilt`: rotateX/rotateY toward the mouse, children lifted with `translate: 0 0 40px` |
 | 3D glass cube in the hero with your top six skills: spins, follows the mouse, speeds up on scroll | `Hero.tsx` | `useHeroCube`: CSS 3D (`preserve-3d`, six `translateZ` faces) |
 | 3D "cover flow" project slider: cards turn as they cross the screen | `Projects.tsx` | `rotateY` per card with `containerAnimation` |

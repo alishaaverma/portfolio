@@ -13,7 +13,7 @@ import { Projects } from './components/Projects';
 import { Skills } from './components/Skills';
 import { Achievements } from './components/Achievements';
 import { Testimonials } from './components/Testimonials';
-import { Articles } from './components/Articles';
+import { Websites } from './components/Websites';
 import { GitHub } from './components/GitHub';
 import { Education, Experience } from './components/Timeline';
 import { Process } from './components/Process';
@@ -98,7 +98,7 @@ export default function App() {
               site.experience.length === 0 && '#experience',
               site.education.length === 0 && '#education',
               site.achievements.length === 0 && '#achievements',
-              site.articles.length === 0 && '#writing',
+              site.websites.length === 0 && '#websites',
             ].filter((id): id is string => Boolean(id))}
           />
           <main>
@@ -111,11 +111,11 @@ export default function App() {
             <Skills groups={site.skills} animate={animate} />
             <Projects projects={site.projects} animate={animate} finePointer={finePointer} />
             <GitHub username={site.profile.githubUsername} animate={animate} />
+            <Websites items={site.websites} animate={animate} />
             <Experience jobs={site.experience} animate={animate} />
             <Education items={site.education} animate={animate} />
             <Achievements items={site.achievements} animate={animate} />
             <Testimonials items={site.testimonials} animate={animate} />
-            <Articles items={site.articles} animate={animate} />
             <Process steps={site.process} animate={animate} />
             <Contact profile={site.profile} animate={animate} finePointer={finePointer} />
           </main>

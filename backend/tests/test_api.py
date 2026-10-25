@@ -31,7 +31,7 @@ def test_site_returns_content_in_camel_case():
     assert body["education"][0]["degree"]
     assert body["achievements"][0]["title"]
     assert body["testimonials"][0]["quote"]
-    assert body["articles"][0]["url"]
+    assert body["websites"][0]["url"]
     assert body["experience"][0]["company"]
     assert "current" in body["experience"][0]
     assert "githubUrl" in body["projects"][0]
@@ -70,5 +70,11 @@ def test_contact_saves_message():
 
 
 def test_github_is_empty_without_a_username():
-    # profile.json has no github_username, so no request is made to GitHub.
+    # With no github_username in profile.json, no request is made to GitHub.
+    path = _tmp / "data" / "profile.json"
+    original = path.read_text()
+    path.write_text(json.dumps({**json.loads(original), "github_username": None}))
+    os.utime(path, (7, 8))
     assert client.get("/api/github").json() == []
+    path.write_text(original)
+    os.utime(path, (9, 10))

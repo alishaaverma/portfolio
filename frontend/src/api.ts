@@ -89,13 +89,15 @@ export interface Testimonial {
   role: string;
 }
 
-export interface Article {
-  title: string;
+/** A live website you built or worked on. */
+export interface Website {
+  name: string;
   url: string;
-  /** e.g. "Medium", "dev.to" */
-  platform: string;
-  /** e.g. "Mar 2025" */
-  date: string;
+  description: string | null;
+  /** What you did on it. */
+  role: string | null;
+  /** Screenshot, e.g. "/media/sites/kalkigen.jpg". */
+  imageUrl: string | null;
 }
 
 export interface SkillGroup {
@@ -118,7 +120,7 @@ export interface SiteData {
   education: Education[];
   achievements: Achievement[];
   testimonials: Testimonial[];
-  articles: Article[];
+  websites: Website[];
 }
 
 /** Empty in development (Vite forwards /api). Set VITE_API_URL in production. */
