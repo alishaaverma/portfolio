@@ -1,6 +1,26 @@
 [
-  { "title": "Understand", "body": "Read the problem, talk to the people who have it, and write down what success looks like before any code." },
-  { "title": "Design", "body": "Sketch the data model, the API and the screens together, so the system and the interface fit each other." },
-  { "title": "Build", "body": "Typed, tested code in small pull requests. React and TypeScript on the front, Python and FastAPI on the back." },
-  { "title": "Ship", "body": "Deploy, monitor, fix what real users find. Shipping is the start of the work, not the end." }
+  {
+    "title": "Understand",
+    "body": "Understand project requirements, identify user needs, and define clear goals to build solutions that solve real-world problems."
+  },
+  {
+    "title": "Design",
+    "body": "Plan responsive user interfaces, backend architecture, API structures, and database models to create efficient and scalable applications."
+  },
+  {
+    "title": "Build",
+    "body": "Develop interactive frontend experiences, backend APIs, database-driven applications, and custom CMS solutions using modern web technologies."
+  },
+  {
+    "title": "Deploy",
+    "body": "Deploy and manage applications using AWS services such as S3, Lambda, CloudFront, and Amplify, while testing functionality and resolving issues."
+  },
+  {
+    "title": "Optimize",
+    "body": "Improve performance, fix bugs, enhance responsiveness, and maintain clean, reliable code to deliver better user experiences."
+  },
+  {
+    "title": "Innovate",
+    "body": "Explore emerging technologies, including blockchain and Solidity smart contracts, to develop innovative digital solutions."
+  }
 ]
