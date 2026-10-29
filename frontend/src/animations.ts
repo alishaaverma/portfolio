@@ -75,7 +75,7 @@ export function useTilt(enabled: boolean) {
     let current: HTMLElement | null = null;
 
     const reset = (el: HTMLElement) => {
-      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.8, ease: "elastic.out(1, 0.5)" });
+      gsap.to(el, { rotateX: 0, rotateY: 0, duration: 0.8, ease: "elastic.out(1, 0.5)", overwrite: "auto" });
       el.style.setProperty("--glare", "0");
     };
 
@@ -94,6 +94,8 @@ export function useTilt(enabled: boolean) {
         transformPerspective: 900,
         duration: 0.4,
         ease: "power2.out",
+        // Stops a slower spring-back from finishing later and flattening the card while hovered.
+        overwrite: "auto",
       });
       el.style.setProperty("--glare-x", `${x * 100}%`);
       el.style.setProperty("--glare-y", `${y * 100}%`);
@@ -304,8 +306,9 @@ export function useCustomCursor(
 
     const dotX = gsap.quickTo(d, "x", { duration: 0.1 });
     const dotY = gsap.quickTo(d, "y", { duration: 0.1 });
-    const ringX = gsap.quickTo(r, "x", { duration: 0.45, ease: "power3" });
-    const ringY = gsap.quickTo(r, "y", { duration: 0.45, ease: "power3" });
+    // Ring trails the dot slightly. Lower duration = follows more tightly.
+    const ringX = gsap.quickTo(r, "x", { duration: 0.15, ease: "power3" });
+    const ringY = gsap.quickTo(r, "y", { duration: 0.15, ease: "power3" });
 
     const onMove = (e: PointerEvent) => {
       dotX(e.clientX);
@@ -353,6 +356,8 @@ export function useMobileMenu(menu: Ref<HTMLDivElement>, open: boolean, animate:
     () => {
       const el = menu.current!;
       const closed = "circle(0% at calc(100% - 40px) 36px)";
+      // A close still running when the menu reopens would hide it at the end.
+      gsap.killTweensOf(el);
       if (!animate) {
         gsap.set(el, { clipPath: open ? "none" : closed, visibility: open ? "visible" : "hidden" });
         return;
@@ -484,7 +489,7 @@ export function useHeroCube(cube: Ref<HTMLDivElement>, animate: boolean, finePoi
     const onMove = (e: PointerEvent) => {
       const nx = e.clientX / window.innerWidth - 0.5;
       const ny = e.clientY / window.innerHeight - 0.5;
-      gsap.to(state, { leanY: nx * 60, leanX: -ny * 40, duration: 1, ease: "power3.out" });
+      gsap.to(state, { leanY: nx * 60, leanX: -ny * 40, duration: 1, ease: "power3.out", overwrite: "auto" });
     };
     if (finePointer) window.addEventListener("pointermove", onMove);
 
@@ -1068,8 +1073,9 @@ export function useFollowPreview(
     gsap.to(
       preview.current,
       hovered
-        ? { scale: 1, rotate: gsap.utils.random(-6, 6), duration: 0.5 }
-        : { scale: 0, duration: 0.4 },
+        // overwrite stops an older pop-in from finishing after a pop-out and leaving an empty box on screen.
+        ? { scale: 1, rotate: gsap.utils.random(-6, 6), duration: 0.5, overwrite: "auto" }
+        : { scale: 0, duration: 0.4, overwrite: "auto" },
     );
   }, [preview, enabled, hovered]);
 }
@@ -1187,10 +1193,11 @@ export function useMagnetic(button: Ref<HTMLButtonElement>, enabled: boolean) {
         x: (e.clientX - r.left - r.width / 2) * 0.4,
         y: (e.clientY - r.top - r.height / 2) * 0.4,
         duration: 0.4,
+        overwrite: "auto",
       });
     };
     const onLeave = () =>
-      gsap.to(b, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1, 0.35)" });
+      gsap.to(b, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1, 0.35)", overwrite: "auto" });
     b.addEventListener("pointermove", onMove);
     b.addEventListener("pointerleave", onLeave);
     return () => {

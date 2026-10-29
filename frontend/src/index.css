@@ -630,6 +630,28 @@
   }
   .slider[data-animated] .slider-track {
     @apply w-max snap-none overflow-visible;
+    /* Room after the last card so it can reach the middle and face front. */
+    --end-room: calc((100vw - min(78vw, 460px)) / 2);
+    padding-right: var(--end-room);
+  }
+  /* The outro takes that room on wide screens (minus the track gap). */
+  .slider-outro {
+    @apply hidden;
+  }
+  @media (min-width: 64rem) {
+    .slider[data-animated] .slider-track {
+      padding-right: 0;
+    }
+    .slider[data-animated] .slider-outro {
+      @apply flex flex-none flex-col items-center justify-center gap-4 text-center;
+      width: calc(var(--end-room) - 1.75rem);
+    }
+  }
+  .slider-outro h2 {
+    @apply font-display text-4xl leading-[0.95] font-extrabold tracking-tight md:text-5xl;
+  }
+  .slider-outro a {
+    @apply text-muted underline-offset-4 transition-colors hover:text-accent hover:underline;
   }
   .slider-intro {
     @apply flex w-[min(80vw,420px)] flex-none flex-col justify-center gap-4;

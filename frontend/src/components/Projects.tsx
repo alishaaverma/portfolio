@@ -63,6 +63,14 @@ function ProjectSlider({ projects, animate }: { projects: Project[]; animate: bo
             </div>
           </a>
         ))}
+        {/* Fills the room after the last card, so that card can stop in the middle. */}
+        <div className="slider-outro">
+          <span className="tag">That's the highlights</span>
+          <h2>Want the details?</h2>
+          <a href="#index-title" data-cursor="Go">
+            See the full project index ↓
+          </a>
+        </div>
       </div>
     </section>
   );

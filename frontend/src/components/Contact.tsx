@@ -22,7 +22,9 @@ export function Contact({ profile, animate, finePointer }: Props) {
   useMagnetic(button, animate && finePointer);
 
   const copyEmail = async () => {
-    await navigator.clipboard.writeText(profile.email);
+    // The clipboard only works on https/localhost; elsewhere fall back to the mail link.
+    if (!navigator.clipboard) return void (window.location.href = `mailto:${profile.email}`);
+    await navigator.clipboard.writeText(profile.email).catch(() => {});
     setCopied(true);
     setTimeout(() => setCopied(false), 1600);
   };
